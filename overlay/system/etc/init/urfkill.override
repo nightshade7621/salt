@@ -19,5 +19,8 @@ script
     # ignore second Wi-Fi interface in NetworkManager
     nmcli device set wlan1 managed false || true
 
+    # disable VoLTE until UT has vendor services implementation to fix LTE
+    setprop persist.vendor.mtk.volte.enable 0
+
     exec /usr/lib/aarch64-linux-gnu/urfkill/urfkilld
 end script
