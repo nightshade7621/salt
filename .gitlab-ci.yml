@@ -33,14 +33,21 @@ devel-flashable:
   stage: deploy
   script:
     - apt update
-    - apt install -y git img2simg jq sudo wget xz-utils
+    - apt install -y build-essential clang git img2simg jq sudo unzip wget xz-utils zlib1g-dev
     - git clone https://gitlab.com/ubports/community-ports/halium-generic-adaptation-build-tools build -b halium-11-mke2fs
     - DEVICE="$(source deviceinfo && echo $deviceinfo_codename)"
     - ./build/prepare-fake-ota.sh out/device_$DEVICE.tar.xz ota
     - mkdir -p out
     - ./build/system-image-from-ota.sh ota/ubuntu_command out
     - mv out/rootfs.img out/ubuntu.img
+
+    # create fastboot flashable super.img
+    - git clone https://github.com/LonelyFool/lpunpack_and_lpmake.git
+    - cd lpunpack_and_lpmake && ./make.sh && cd ..
+    - wget https://volla.tech/filedump/ubuntu-touch-mimameid-firmware-r.tar.xz
+    - tar xvJf ubuntu-touch-mimameid-firmware-r.tar.xz
+    - ./lpunpack_and_lpmake/bin/lpmake --metadata-size 65536 --metadata-slots 2 --sparse --super-name super --device super:8589934592 --group ubuntu:8585740288 --partition system_a:none:7780433920:ubuntu --partition vendor_a:none:805306368:ubuntu --image 'system_a=out/ubuntu.img' --image 'vendor_a=partitions/vendor.img' --output out/super.img
   artifacts:
     paths:
       - out/boot.img
-      - out/ubuntu.img
+      - out/super.img
