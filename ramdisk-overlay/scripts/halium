@@ -100,6 +100,9 @@ identify_android_image() {
 	[ -f /halium-system/var/lib/lxc/android/system.img ] && ANDROID_IMAGE_MODE="system"
 	[ -f /halium-system/var/lib/lxc/android/android-rootfs.img ] && ANDROID_IMAGE_MODE="rootfs"
 	[ -z $ANDROID_IMAGE_MODE ] && ANDROID_IMAGE_MODE="unknown"
+
+	[ $ANDROID_IMAGE_MODE = "system" ] && ANDROID_IMAGE="system.img" || ANDROID_IMAGE="android-rootfs.img"
+	[ $ANDROID_IMAGE_MODE != "unknown" ] && ANDROID_IMAGE_MODE="rootfs"
 }
 
 set_halium_version_properties() {
@@ -585,7 +588,6 @@ mountroot() {
 	# Mount the android system partition to a temporary location
 	MOUNT="ro"
 	MOUNT_LOCATION="/android-$ANDROID_IMAGE_MODE"
-	[ $ANDROID_IMAGE_MODE = "system" ] && ANDROID_IMAGE="system.img" || ANDROID_IMAGE="android-rootfs.img"
 	[ -e /tmpmnt/.writable_device_image -o -e /halium-system/.writable_device_image ] && MOUNT="rw"
 	tell_kmsg "mounting android system image (/tmpmnt/$ANDROID_IMAGE) $MOUNT, in $MOUNT_LOCATION ($ANDROID_IMAGE_MODE mode)"
 	if [ $file_layout = "halium" ]; then
