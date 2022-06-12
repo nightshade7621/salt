@@ -72,6 +72,10 @@ setup_boot() {
 	mkdir -p $GADGET_DIR/functions/ffs.adb
 	symlink $GADGET_DIR/configs/$CONFIG_NAME $GADGET_DIR/os_desc/$CONFIG_NAME
 
+	chown root:plugdev $GADGET_DIR
+	chown root:plugdev $GADGET_DIR/configs
+	chown root:plugdev $GADGET_DIR/configs/$CONFIG_NAME
+
 	mkdir -p /dev/usb-ffs/adb
 	mount -t functionfs -o uid=32011,gid=32011 adb /dev/usb-ffs/adb
 	chown root:plugdev /dev/usb-ffs
