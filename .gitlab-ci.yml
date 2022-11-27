@@ -45,12 +45,6 @@ devel-bootloader-flashable:
 devel-bootloader-flashable-focal:
   extends: devel-bootloader-flashable
   needs: [ "devel-flashable-focal" ]
-  rules:
-    # Explicitly re-specify the "default" condition. See:
-    # - https://gitlab.com/gitlab-org/gitlab/-/issues/225422
-    # - https://docs.gitlab.com/ee/ci/jobs/job_control.html#avoid-duplicate-pipelines
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: never
-    # TODO: the resulting image is too big for GitLab. Figure out how to
-    # make it possible to upload the artifact somehow.
-    - when: manual
+  # TODO: the resulting image is too big for GitLab. Figure out how to
+  # make it possible to upload the artifact somehow.
+  when: manual
