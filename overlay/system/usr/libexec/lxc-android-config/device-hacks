@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# enable Wi-Fi adapter in client mode
+while [ ! -e /dev/wmtWifi ]; do sleep 0.2; done
+echo S > /dev/wmtWifi
+
+# ignore second Wi-Fi interface in NetworkManager
+nmcli device set wlan1 managed false || true
+
+# Enable WoWLAN to avoid network disconnect before suspend
+while [ ! -e /sys/class/ieee80211/phy0 ]; do sleep 1; done
+iw phy phy0 wowlan enable magic-packet
+
+# disable VoLTE until UT has vendor services implementation to fix LTE
+setprop persist.vendor.mtk.volte.enable 0
