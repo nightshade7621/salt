@@ -1,0 +1,17 @@
+mimameid:
+  Vendor: Volla
+  PrettyName: Phone 22
+  DeviceType: phone
+  GridUnit: 21
+  SupportedOrientations:
+    - Portrait
+    - Landscape
+    - InvertedLandscape
+  MirAndroidPlatformServerPartialUpdates:
+    - false
+  MirAndroidPlatformServerBackpressure:
+    - true
+  MirAndroidPlatformServerEglSync:
+    - true
+  MirAndroidPlatformClientEglFlush:
+    - all
