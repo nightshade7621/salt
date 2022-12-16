@@ -15,3 +15,4 @@ mimameid:
     - true
   MirAndroidPlatformClientEglFlush:
     - all
+  VibrateDurationExtraMs: 40
