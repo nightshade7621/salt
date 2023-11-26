@@ -7,7 +7,7 @@ variables:
 # create fastboot flashable super.img
 devel-bootloader-flashable:
   stage: deploy
-  needs: [ "devel-flashable" ]
+  needs: [ "devel-flashable-focal" ]
   script: |
     set -e
 
@@ -37,14 +37,12 @@ devel-bootloader-flashable:
       --image 'system_a=out/ubuntu.img' \
       --image 'vendor_a=partitions/vendor.img' \
       --output out/super.img
+
+    # compress with zstd due to GitLab artifacts size limit
+    apt install -y zstd
+    zstd -T0 --ultra -20 out/super.img
+
   artifacts:
     paths:
       - out/boot.img
-      - out/super.img
-
-devel-bootloader-flashable-focal:
-  extends: devel-bootloader-flashable
-  needs: [ "devel-flashable-focal" ]
-  # TODO: the resulting image is too big for GitLab. Figure out how to
-  # make it possible to upload the artifact somehow.
-  when: manual
+      - out/super.img.zst
