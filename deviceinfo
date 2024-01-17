@@ -9,6 +9,7 @@ deviceinfo_kernel_cmdline="bootopt=64S3,32N2,64N2 buildvariant=user systempart=/
 deviceinfo_kernel_clang_compile="true"
 deviceinfo_kernel_llvm_compile="true"
 deviceinfo_dtb="mediatek/mt6768.dtb"
+deviceinfo_dtbo="mediatek/k69v1_64_k419.dtbo"
 deviceinfo_flash_pagesize="2048"
 deviceinfo_flash_offset_base="0x40000000"
 deviceinfo_flash_offset_kernel="0x00080000"
